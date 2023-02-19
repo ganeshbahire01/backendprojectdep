@@ -3,6 +3,7 @@ const { connection } = require("./db");
 const { authenticate } = require("./middelware/authenticate");
 const { notesrouter } = require("./Routes/Notes.route");
 const { router } = require("./Routes/User.route");
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
