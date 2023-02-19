@@ -1,7 +1,8 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 const { NotesModel } = require("../Model/notes.model");
 const notesrouter = express.Router();
+const jwt = require("jsonwebtoken");
 
 notesrouter.get("/", async (req, res) => {
   try {
@@ -12,9 +13,15 @@ notesrouter.get("/", async (req, res) => {
 
 notesrouter.post("/addnotes", async (req, res) => {
   try {
-    let user = new NotesModel(req.body);
-    await user.save();
-    res.send("notes added success");
+    await jwt.verify(req.headers.authorization, "ganesh", (err, decoded) => {
+      if (decoded) {
+        let user = new NotesModel(req.body);
+        user.save();
+        res.send("notes added success");
+      } else {
+        res.send("login required");
+      }
+    });
   } catch (err) {
     console.log(err);
   }
