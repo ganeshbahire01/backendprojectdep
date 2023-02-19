@@ -5,9 +5,11 @@ const authenticate = (req, res, next) => {
   if (token) {
     jwt.verify(token, "ganesh", (err, decoded) => {
       if (decoded) {
+        req.body.userId = decoded.AuthId;
+        // console.log(decoded);
         next();
       } else {
-        res.send("Please Login");
+        res.send("Please Login T");
       }
     });
   } else {
