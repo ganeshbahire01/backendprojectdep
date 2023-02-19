@@ -3,13 +3,15 @@ const { connection } = require("./db");
 const { authenticate } = require("./middelware/authenticate");
 const { notesrouter } = require("./Routes/Notes.route");
 const { router } = require("./Routes/User.route");
+require("dotenv").config();
 
 const app = express();
 app.use(express.json());
 app.use("/users", router);
 app.use(authenticate);
 app.use("/notes", notesrouter);
-app.listen(8080, async () => {
+
+app.listen(process.env.PORT, async () => {
   try {
     await connection;
     console.log("DB connected");
